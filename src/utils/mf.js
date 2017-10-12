@@ -1,8 +1,8 @@
 //mf == make files
-module.exports.mf = () => ({
-    writeFile,
-    meta
-});
+module.exports.mf = (() => ({
+        writeFile,
+        meta
+})());
 
 const fileRe = /^(.*)\\|\/(\w+\.\w+)$/;
 
@@ -13,7 +13,6 @@ function writeFile(file, data, options = {
     if (result = file.match(fileRe)) {
         let dir = result[2];
         let fileName = result[2];
-
     }
 }
 
