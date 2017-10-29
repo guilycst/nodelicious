@@ -1,28 +1,33 @@
-//mf == make files
-module.exports = (function () {
-    return {
-        writeFile,
-        meta
+const fs = require('fs');
+
+module.exports = new MakeFile();
+
+const fileRegx = /^(.*)(\\|\/)(\w+\.\w+)$/;
+
+class MakeFile {
+
+    writeFile(file, data) {
+        return new Promise((resolve, reject) => {
+            let result = meta(file);
+            fs.mkdir(result.absolute, (err) => {
+                if (err) {
+                    reject(err)
+                } else {
+                    fs.writeFile(file, data, resolve)
+                }
+            })
+        });
     }
-}());
 
-const fileRe = /^(.*)\\|\/(\w+\.\w+)$/;
-
-function writeFile(file, data) {
-    let result;
-    if (result = file.match(fileRe)) {
-        let dir = result[2];
-        let fileName = result[2];
-    }
-}
-
-
-function meta(filePath) {
-    let result = filePath.match(fileRe);
-    if (result) {
-        return {
-            dir: result[1],
-            fileName: result[2]
+    meta(filePath) {
+        let result = filePath.match(fileRegx);
+        if (result) {
+            return {
+                dir: result[1] + result[2],
+                fileName: result[3],
+                absolute: result[0]
+            }
         }
     }
+
 }
